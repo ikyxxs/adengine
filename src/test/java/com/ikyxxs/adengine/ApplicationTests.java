@@ -6,6 +6,7 @@ import com.ikyxxs.adengine.controller.AdvertEngineController;
 import com.ikyxxs.adengine.intercepter.RequestThreadLocalInterceptor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -20,9 +21,12 @@ public class ApplicationTests {
 
     private MockMvc mvc;
 
+    @Autowired
+    private AdvertEngineController advertEngineController;
+
     @BeforeEach
     public void setUp() throws Exception {
-        mvc = MockMvcBuilders.standaloneSetup(new AdvertEngineController())
+        mvc = MockMvcBuilders.standaloneSetup(advertEngineController)
                 .addInterceptors(new RequestThreadLocalInterceptor())
                 .build();
         System.out.println("初始化mock模块");
@@ -31,7 +35,7 @@ public class ApplicationTests {
     @Test
     public void testAdvert() throws Exception {
         String deviceId = RandomUtil.randomString(8);
-        String appId = "1";
+        Long appId = 1L;
         String url = StrUtil.format("/getAdvert?deviceId={}&appId={}", deviceId, appId);
 
         String resp = mvc.perform(MockMvcRequestBuilders.get(url)).andExpect(status().isOk())

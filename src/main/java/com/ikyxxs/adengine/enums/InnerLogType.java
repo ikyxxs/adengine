@@ -9,6 +9,7 @@ package com.ikyxxs.adengine.enums;
 public enum InnerLogType {
 
     ADVERT_REQUEST(1, "广告请求"),
+    ADVERT_LAUNCH(2, "广告投放"),
     ;
 
     private final int type;

@@ -1,9 +1,13 @@
 package com.ikyxxs.adengine.controller;
 
+import cn.hutool.core.util.RandomUtil;
 import com.ikyxxs.adengine.domain.RequestThreadLocal;
 import com.ikyxxs.adengine.domain.Result;
 import com.ikyxxs.adengine.domain.ResultBuilder;
+import com.ikyxxs.adengine.domain.vo.AdvertVO;
+import com.ikyxxs.adengine.service.engine.AdvertEngineService;
 import com.ikyxxs.adengine.utils.InnerLogUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +23,9 @@ import static com.ikyxxs.adengine.enums.InnerLogType.ADVERT_REQUEST;
 @RestController
 public class AdvertEngineController {
 
+    @Autowired
+    private AdvertEngineService advertEngineService;
+
     /**
      * 请求广告
      */
@@ -28,8 +35,12 @@ public class AdvertEngineController {
         // 记录广告请求日志
         InnerLogUtils.log(ADVERT_REQUEST, InnerLogUtils.buildJSON());
 
-        System.out.println("deviceId: " + RequestThreadLocal.get().getDeviceId());
-        System.out.println("appId: " + RequestThreadLocal.get().getAppId());
-        return ResultBuilder.fail("获取广告失败");
+        // 生成订单号
+        String orderId = RandomUtil.randomNumbers(8);
+        RequestThreadLocal.get().setOrderId(orderId);
+
+        // 获取广告
+        AdvertVO advertVO = advertEngineService.getAdvert();
+        return ResultBuilder.success(advertVO);
     }
 }

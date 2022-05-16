@@ -34,12 +34,17 @@ public class RequestThreadLocal {
     /**
      * 媒体ID
      */
-    private String appId;
+    private Long appId;
 
     /**
      * 设备号
      */
     private String deviceId;
+
+    /**
+     * 订单号
+     */
+    private String orderId;
 
     public HttpServletRequest getRequest() {
         return request;
@@ -57,11 +62,11 @@ public class RequestThreadLocal {
         this.response = response;
     }
 
-    public String getAppId() {
+    public Long getAppId() {
         return appId;
     }
 
-    public void setAppId(String appId) {
+    public void setAppId(Long appId) {
         this.appId = appId;
     }
 
@@ -71,5 +76,13 @@ public class RequestThreadLocal {
 
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 }

@@ -1,5 +1,6 @@
 package com.ikyxxs.adengine.intercepter;
 
+import cn.hutool.core.util.StrUtil;
 import com.ikyxxs.adengine.domain.RequestThreadLocal;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,7 +20,10 @@ public class RequestThreadLocalInterceptor extends HandlerInterceptorAdapter {
         local.setRequest(request);
         local.setResponse(response);
         local.setDeviceId(request.getParameter("deviceId"));
-        local.setAppId(request.getParameter("appId"));
+        String appId = request.getParameter("appId");
+        if (StrUtil.isNumeric(appId)) {
+            local.setAppId(Long.valueOf(appId));
+        }
         return true;
     }
 
