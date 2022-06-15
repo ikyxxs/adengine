@@ -2,8 +2,11 @@ package com.ikyxxs.adengine;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.ikyxxs.adengine.controller.AdvertEngineController;
 import com.ikyxxs.adengine.intercepter.RequestThreadLocalInterceptor;
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,6 @@ public class ApplicationTests {
         mvc = MockMvcBuilders.standaloneSetup(advertEngineController)
                 .addInterceptors(new RequestThreadLocalInterceptor())
                 .build();
-        System.out.println("初始化mock模块");
     }
 
     @Test
@@ -41,5 +43,9 @@ public class ApplicationTests {
         String resp = mvc.perform(MockMvcRequestBuilders.get(url)).andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
         System.out.println(resp);
+
+        JSONObject result = JSON.parseObject(resp);
+        Assert.assertEquals(result.getIntValue("code"), 200);
+        Assert.assertEquals(result.getJSONObject("data").getLongValue("advertId"), 1L);
     }
 }
