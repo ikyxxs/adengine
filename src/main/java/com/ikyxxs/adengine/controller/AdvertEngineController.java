@@ -31,7 +31,7 @@ public class AdvertEngineController {
      */
     @CrossOrigin
     @GetMapping("/getAdvert")
-    public Result getAdvert() {
+    public Result<AdvertVO> getAdvert() {
         // 记录广告请求日志
         InnerLogUtils.log(ADVERT_REQUEST, InnerLogUtils.buildJSON());
 

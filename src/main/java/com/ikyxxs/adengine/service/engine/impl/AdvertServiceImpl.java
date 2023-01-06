@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
+import static com.ikyxxs.adengine.enums.AdvertStatusEnum.NORMAL;
+import static com.ikyxxs.adengine.enums.SwitchStatusEnum.ON;
+
 /**
  * 广告服务接口实现
  *
@@ -27,8 +30,8 @@ public class AdvertServiceImpl implements AdvertService {
     public List<AdvertDO> selectValidAdverts() {
         Date today = DateUtil.beginOfDay(new Date());
         LambdaQueryWrapper<AdvertDO> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(AdvertDO::getServingSwitch, 1)
-                .eq(AdvertDO::getAdvertStatus, 0)
+        wrapper.eq(AdvertDO::getServingSwitch, ON.getStatus())
+                .eq(AdvertDO::getAdvertStatus, NORMAL.getStatus())
                 .le(AdvertDO::getStartServingDate, today)
                 .ge(AdvertDO::getStopServingDate, today);
         return advertMapper.selectBySql(wrapper);

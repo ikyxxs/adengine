@@ -48,7 +48,6 @@ public class AdvertCacheService implements ApplicationListener<ContextRefreshedE
      */
     private final LoadingCache<Long, Optional<AdvertCacheDto>> ADVERT_CACHE = CacheBuilder
             .newBuilder()
-            .maximumSize(100)
             .refreshAfterWrite(5, TimeUnit.MINUTES)
             .build(new CacheLoader<Long, Optional<AdvertCacheDto>>() {
 
